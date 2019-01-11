@@ -1,0 +1,24 @@
+{
+  "name": "kernelman/common",
+  "description": "Common library package for php language.",
+  "type": "library",
+  "version": "1.0.0",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Kernel Huang",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.0",
+    "kernelman/exceptions" : ">=1.0.0",
+    "kernelman/message" : ">=1.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Common\\": "src/"
+    }
+  },
+  "minimum-stability": "dev"
+}
