@@ -8,7 +8,7 @@
  * Time:    3:56 PM
  */
 
-namespace Common\Objects;
+namespace Common;
 
 use Exceptions\InvalidArgumentException;
 use Message\Message;
