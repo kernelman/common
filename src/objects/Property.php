@@ -10,8 +10,8 @@
 
 namespace Common\Objects;
 
-use \Exceptions\InvalidArgumentException;
-use \Message\Message;
+use Exceptions\InvalidArgumentException;
+use Message\Message;
 
 Class Property {
 
