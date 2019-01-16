@@ -63,6 +63,22 @@ Class Property {
     }
 
     /**
+     * Check if the object property exists return self, else return defined
+     *
+     * @param $object
+     * @param $property
+     * @param $defined
+     * @return mixed
+     */
+    public static function isExists($object, $property, $defined) {
+        if (property_exists($object, $property)) {
+            return $object->{$property};
+        }
+
+        return $defined;
+    }
+
+    /**
      * Check if the argument exists and is an null.
      *
      * @param $params
