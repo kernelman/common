@@ -38,6 +38,19 @@ Class Property {
     }
 
     /**
+     * Check the params set, if it does not set, return 0.
+     *
+     * @param $params
+     * @return int
+     */
+    public static function nonSetReturnZero($params) {
+        if (isset($params)) {
+            return $params;
+        }
+        return 0;
+    }
+
+    /**
      * Check if the object property exists and is an empty string.
      *
      * @param $object
