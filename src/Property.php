@@ -27,6 +27,17 @@ Class Property {
     }
 
     /**
+     * Check if the object property exists, if it does not exist, return 0.
+     *
+     * @param $object
+     * @param $property
+     * @return int
+     */
+    public static function nonExistsReturnZero($object, $property) {
+        return $object->{$property} ?? 0;
+    }
+
+    /**
      * Check if the object property exists, if it does not exist, return null.
      *
      * @param $params
@@ -39,12 +50,11 @@ Class Property {
     /**
      * Check if the object property exists, if it does not exist, return 0.
      *
-     * @param $object
-     * @param $property
+     * @param $params
      * @return int
      */
-    public static function nonExistsReturnZero($object, $property) {
-        return $object->{$property} ?? 0;
+    public static function notExistsReturnZero($params) {
+        return $params ?? 0;
     }
 
     /**
