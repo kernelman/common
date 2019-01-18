@@ -27,6 +27,16 @@ Class Property {
     }
 
     /**
+     * Check if the object property exists, if it does not exist, return null.
+     *
+     * @param $params
+     * @return null
+     */
+    public static function notExistsReturnNull($params) {
+        return $params ?? null;
+    }
+
+    /**
      * Check if the object property exists, if it does not exist, return 0.
      *
      * @param $object
@@ -47,6 +57,7 @@ Class Property {
         if (isset($params)) {
             return $params;
         }
+
         return 0;
     }
 
