@@ -63,6 +63,20 @@ Class Property {
     }
 
     /**
+     * Check if the object property exists and is an true, return true
+     *
+     * @param $params
+     * @return bool
+     */
+    public static function realityReturnTrue($params) {
+        if (isset($params) && ($params)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Check if the object property exists return self, else return defined
      *
      * @param $object
