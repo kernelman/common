@@ -43,4 +43,14 @@ class TimeRelated
     public static function todayAny(int $hour, int $minute, int $second) {
         return mktime($hour, $minute, $second, date('m'), date('d'), date('Y'));
     }
+
+    /**
+     * Date to timestamp
+     *
+     * @param string $dateString Date Format: 2010-01-01 01:01:01
+     * @return false|int
+     */
+    public static function toTimestamp(string $dateString) {
+        return strtotime($dateString);
+    }
 }
