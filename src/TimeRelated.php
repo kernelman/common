@@ -15,7 +15,7 @@ class TimeRelated
 {
 
     /**
-     * Get the today 00:00:00 timestamp.
+     * Get the today 00:00:00 timestamp or date.
      *
      * @param bool $timestamp
      * @return false|int|string
@@ -29,7 +29,7 @@ class TimeRelated
     }
 
     /**
-     * Get the today 23:59:59 timestamp.
+     * Get the today 23:59:59 timestamp or date.
      *
      * @param bool $timestamp
      * @return false|int|string
@@ -43,7 +43,7 @@ class TimeRelated
     }
 
     /**
-     * Get any time the timestamp on today
+     * Get any time the timestamp or date on today.
      *
      * @param int $hour
      * @param int $minute
