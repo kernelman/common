@@ -13,8 +13,115 @@ namespace Common;
 
 class TimeRelated
 {
-    const FIRST  = 'Y-m-d 00:00:00';
-    const LAST   = 'Y-m-d 23:59:59';
+    const FIRST = 'Y-m-d 00:00:00';
+    const LAST  = 'Y-m-d 23:59:59';
+    const START = 'start';
+    const END   = 'end';
+
+    /**
+     * Get the current time.
+     *
+     * @param bool $timestamp
+     * @return false|int|string
+     */
+    public static function current($timestamp = true) {
+        if ($timestamp) {
+            return time();
+        }
+
+        return date("Y-m-d H:i:s", time());
+    }
+
+    /**
+     * Get day number of the current day.
+     *
+     * @return false|string
+     */
+    public static function currentDay() {
+        return date("d", time());
+    }
+
+    /**
+     * Get month number of the current month.
+     *
+     * @return false|string
+     */
+    public static function currentMonth() {
+        return date("m", time());
+    }
+
+    /**
+     * Get year number of the current year.
+     *
+     * @return false|string
+     */
+    public static function currentYear() {
+        return date("Y", time());
+    }
+
+    /**
+     * Get the start time and end time for the current month.
+     *
+     * @param bool $timestamp
+     * @return object
+     */
+    public static function month($timestamp = true) {
+        $year   = self::currentYear();
+        $month  = self::currentMonth();
+        $start  = mktime(0, 0, 0, $month, 1, $year);
+        $end    = mktime(23, 59, 59, $month, self::monthDays(), $year);
+
+        if ($timestamp) {
+            return (object)[ self::START => $start, self::END => $end ];
+        }
+
+        return (object)[ self::START => self::toDate($start), self::END => self::toDate($end) ];
+    }
+
+    /**
+     * Get the start time for the current month.
+     *
+     * @param bool $timestamp
+     * @return false|int|string
+     */
+    public static function monthFirst($timestamp = true) {
+        $year   = self::currentYear();
+        $month  = self::currentMonth();
+        $start  = mktime(0, 0, 0, $month, 1, $year);
+
+        if ($timestamp) {
+            return $start;
+        }
+
+        return self::toDate($start);
+    }
+
+    /**
+     * Get the end time for the current month.
+     *
+     * @param bool $timestamp
+     * @return false|int|string
+     */
+    public static function monthLast($timestamp = true) {
+        $year   = self::currentYear();
+        $month  = self::currentMonth();
+        $end    = mktime(23, 59, 59, $month, self::monthDays(), $year);
+
+        if ($timestamp) {
+            return $end;
+        }
+
+        return self::toDate($end);
+    }
+
+    /**
+     * Get the number of days of the current month
+     *
+     * @return false|string
+     */
+    public static function monthDays() {
+        return date('t');
+    }
 
     /**
      * Get the start time and end time for the current week.
@@ -30,10 +137,10 @@ class TimeRelated
         $weekEnd    = date(self::LAST, strtotime("$weekStart +6 days"));
 
         if ($timestamp) {
-            return (object)[ 'start' => self::toTimestamp($weekStart), 'end' => self::toTimestamp($weekEnd) ];
+            return (object)[ self::START => self::toTimestamp($weekStart), self::END => self::toTimestamp($weekEnd) ];
         }
 
-        return (object)[ 'start' => $weekStart, 'end' => $weekEnd ];
+        return (object)[ self::START => $weekStart, self::END => $weekEnd ];
     }
 
     /**
@@ -107,7 +214,7 @@ class TimeRelated
      * @param bool $timestamp
      * @return false|int|string
      */
-    public static function todayAny(int $hour, int $minute, int $second, $timestamp = true) {
+    public static function todayAny($hour, $minute, $second, $timestamp = true) {
         if ($timestamp) {
             return mktime($hour, $minute, $second, date('m'), date('d'), date('Y'));
         }
@@ -123,5 +230,9 @@ class TimeRelated
      */
     public static function toTimestamp(string $dateString) {
         return strtotime($dateString);
+    }
+
+    public static function toDate($timestamp) {
+        return date("Y-m-d H:i:s", $timestamp);
     }
 }
