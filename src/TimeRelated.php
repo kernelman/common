@@ -13,6 +13,62 @@ namespace Common;
 
 class TimeRelated
 {
+    const FIRST  = 'Y-m-d 00:00:00';
+    const LAST   = 'Y-m-d 23:59:59';
+
+    /**
+     * Get the start time and end time for the current week.
+     *
+     * @param int $startDay Start day: 0 for sunday, 1 for monday.
+     * @param bool $timestamp
+     * @return object
+     */
+    public static function week($startDay = 0, $timestamp = true) {
+        $current    = date('Y-m-d');
+        $week       = date('w', strtotime($current));
+        $weekStart  = date(self::FIRST, strtotime("$current - " . ($week ? $week - $startDay : 6) .' days'));
+        $weekEnd    = date(self::LAST, strtotime("$weekStart +6 days"));
+
+        if ($timestamp) {
+            return (object)[ 'start' => self::toTimestamp($weekStart), 'end' => self::toTimestamp($weekEnd) ];
+        }
+
+        return (object)[ 'start' => $weekStart, 'end' => $weekEnd ];
+    }
+
+    /**
+     * Get the start time for the current week.
+     *
+     * @param int $startDay Start day: 0 for sunday, 1 for monday.
+     * @param bool $timestamp
+     * @return false|int|string
+     */
+    public static function weekFirst($startDay = 0, $timestamp = true) {
+        $current    = date('Y-m-d');
+        $week       = date('w', strtotime($current));
+        $weekStart  = date(self::FIRST, strtotime("$current - " . ($week ? $week - $startDay : 6) .' days'));
+        if ($timestamp) {
+            return self::toTimestamp($weekStart);
+        }
+
+        return $weekStart;
+    }
+
+    /**
+     * Get the end time for the current week.
+     *
+     * @param int $startDay
+     * @param bool $timestamp
+     * @return false|int|string
+     */
+    public static function weekLast($startDay = 0, $timestamp = true) {
+        $weekEnd = date(self::LAST, strtotime(self::weekFirst($startDay, false) . ' +6 days'));
+        if ($timestamp) {
+            return self::toTimestamp($weekEnd);
+        }
+
+        return $weekEnd;
+    }
 
     /**
      * Get the today 00:00:00 timestamp or date.
@@ -25,7 +81,7 @@ class TimeRelated
             return mktime(0, 0, 0, date('m'), date('d'), date('Y'));
         }
 
-        return  date('Y-m-d 00:00:00', time());
+        return  date(self::FIRST, time());
     }
 
     /**
@@ -39,7 +95,7 @@ class TimeRelated
             return mktime(23, 59, 59, date('m'), date('d'), date('Y'));
         }
 
-        return  date('Y-m-d 23:59:59', time());
+        return  date(self::LAST, time());
     }
 
     /**
