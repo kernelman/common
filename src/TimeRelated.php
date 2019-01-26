@@ -19,6 +19,34 @@ class TimeRelated
     const END   = 'end';
 
     /**
+     * Get the start time for the current year.
+     *
+     * @param bool $timestamp
+     * @return false|int|string
+     */
+    public static function yearFirst($timestamp = true) {
+        if ($timestamp) {
+            return self::toTimestamp(date(self::FIRST, self::toTimestamp('first day of january this year')));
+        }
+
+        return date(self::FIRST, self::toTimestamp('first day of january this year'));
+    }
+
+    /**
+     * Get the end time for the current year.
+     *
+     * @param bool $timestamp
+     * @return false|int|string
+     */
+    public static function yearLast($timestamp = true) {
+        if ($timestamp) {
+            return self::toTimestamp(date(self::LAST, self::toTimestamp('last day of december this year')));
+        }
+
+        return date(self::LAST, self::toTimestamp('last day of december this year'));
+    }
+
+    /**
      * Get the current time.
      *
      * @param bool $timestamp
@@ -132,9 +160,9 @@ class TimeRelated
      */
     public static function week($startDay = 0, $timestamp = true) {
         $current    = date('Y-m-d');
-        $week       = date('w', strtotime($current));
-        $weekStart  = date(self::FIRST, strtotime("$current - " . ($week ? $week - $startDay : 6) .' days'));
-        $weekEnd    = date(self::LAST, strtotime("$weekStart +6 days"));
+        $week       = date('w', self::toTimestamp($current));
+        $weekStart  = date(self::FIRST, self::toTimestamp("$current - " . ($week ? $week - $startDay : 6) .' days'));
+        $weekEnd    = date(self::LAST, self::toTimestamp("$weekStart +6 days"));
 
         if ($timestamp) {
             return (object)[ self::START => self::toTimestamp($weekStart), self::END => self::toTimestamp($weekEnd) ];
@@ -152,8 +180,8 @@ class TimeRelated
      */
     public static function weekFirst($startDay = 0, $timestamp = true) {
         $current    = date('Y-m-d');
-        $week       = date('w', strtotime($current));
-        $weekStart  = date(self::FIRST, strtotime("$current - " . ($week ? $week - $startDay : 6) .' days'));
+        $week       = date('w', self::toTimestamp($current));
+        $weekStart  = date(self::FIRST, self::toTimestamp("$current - " . ($week ? $week - $startDay : 6) .' days'));
         if ($timestamp) {
             return self::toTimestamp($weekStart);
         }
@@ -169,7 +197,7 @@ class TimeRelated
      * @return false|int|string
      */
     public static function weekLast($startDay = 0, $timestamp = true) {
-        $weekEnd = date(self::LAST, strtotime(self::weekFirst($startDay, false) . ' +6 days'));
+        $weekEnd = date(self::LAST, self::toTimestamp(self::weekFirst($startDay, false) . ' +6 days'));
         if ($timestamp) {
             return self::toTimestamp($weekEnd);
         }
