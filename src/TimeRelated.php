@@ -57,7 +57,7 @@ class TimeRelated
             return time();
         }
 
-        return date("Y-m-d H:i:s", time());
+        return date('Y-m-d H:i:s', time());
     }
 
     /**
@@ -66,7 +66,16 @@ class TimeRelated
      * @return false|string
      */
     public static function currentDay() {
-        return date("d", time());
+        return date('d', time());
+    }
+
+    /**
+     * Get today string.
+     *
+     * @return false|string
+     */
+    public static function today() {
+        return date('Y-m-d', time());
     }
 
     /**
@@ -75,7 +84,7 @@ class TimeRelated
      * @return false|string
      */
     public static function currentMonth() {
-        return date("m", time());
+        return date('m', time());
     }
 
     /**
@@ -84,7 +93,7 @@ class TimeRelated
      * @return false|string
      */
     public static function currentYear() {
-        return date("Y", time());
+        return date('Y', time());
     }
 
     /**
@@ -159,7 +168,7 @@ class TimeRelated
      * @return object
      */
     public static function week($startDay = 0, $timestamp = true) {
-        $current    = date('Y-m-d');
+        $current    = self::today();
         $week       = date('w', self::toTimestamp($current));
         $weekStart  = date(self::FIRST, self::toTimestamp("$current - " . ($week ? $week - $startDay : 6) .' days'));
         $weekEnd    = date(self::LAST, self::toTimestamp("$weekStart +6 days"));
@@ -179,7 +188,7 @@ class TimeRelated
      * @return false|int|string
      */
     public static function weekFirst($startDay = 0, $timestamp = true) {
-        $current    = date('Y-m-d');
+        $current    = self::today();
         $week       = date('w', self::toTimestamp($current));
         $weekStart  = date(self::FIRST, self::toTimestamp("$current - " . ($week ? $week - $startDay : 6) .' days'));
         if ($timestamp) {
@@ -274,24 +283,43 @@ class TimeRelated
      * Get an array of the today of the hourly timing.
      *
      * @param $timing
+     * @param bool $second
      * @param bool $timestamp
      * @return array
      */
-    public static function hourly($timing, $timestamp = true) {
+    public static function hourly($timing, $second = false, $timestamp = true) {
         $hourlies = [];
 
         for($i = 0; $i < 24; $i++) {
-            $todayHourly = self::todayAny($i, $timing, $timing);
-
-            if ($timestamp) {
-                array_push($hourlies, $todayHourly);
-
-            } else {
-                array_push($hourlies, self::toDate($todayHourly));
-            }
+            $any = self::hourlyAny($i, $timing, $second, $timestamp);
+            array_push($hourlies, $any);
         }
 
         return $hourlies;
+    }
+
+    /**
+     * Get an array of the today of the hourly any time.
+     *
+     * @param $hour
+     * @param $timing
+     * @param bool $second
+     * @param bool $timestamp
+     * @return false|int|string
+     */
+    public static function hourlyAny($hour, $timing = 0, $second = false, $timestamp = true) {
+        if (!$second) {
+            $todayHourly = self::todayAny($hour, $timing, $timing);
+
+        } else {
+            $todayHourly = self::todayAny($hour, $timing, $second);
+        }
+
+        if ($timestamp) {
+            return $todayHourly;
+        }
+
+        return self::toDate($todayHourly);
     }
 
     /**
@@ -305,6 +333,6 @@ class TimeRelated
     }
 
     public static function toDate($timestamp) {
-        return date("Y-m-d H:i:s", $timestamp);
+        return date('Y-m-d H:i:s', $timestamp);
     }
 }
