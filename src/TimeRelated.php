@@ -213,7 +213,7 @@ class TimeRelated
      */
     public static function todayFirst($timestamp = true) {
         if ($timestamp) {
-            return mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+            return self::todayAny(0, 0, 0);
         }
 
         return  date(self::FIRST, time());
@@ -227,10 +227,10 @@ class TimeRelated
      */
     public static function todayLast($timestamp = true) {
         if ($timestamp) {
-            return mktime(23, 59, 59, date('m'), date('d'), date('Y'));
+            return self::todayAny(23, 59, 59);
         }
 
-        return  date(self::LAST, time());
+        return date(self::LAST, time());
     }
 
     /**
@@ -248,6 +248,50 @@ class TimeRelated
         }
 
         return  date('Y-m-d ' . (string)$hour . ':' . (string)$minute . ':' . (string)$second, time());
+    }
+
+    /**
+     * Get an array of the today of the hourly start time.
+     *
+     * @param bool $timestamp
+     * @return array
+     */
+    public static function hourlyFirst($timestamp = true) {
+        return self::hourly(0, $timestamp);
+    }
+
+    /**
+     * Get an array of the today of the hourly end time.
+     *
+     * @param bool $timestamp
+     * @return array
+     */
+    public static function hourlyLast($timestamp = true) {
+        return self::hourly(59, $timestamp);
+    }
+
+    /**
+     * Get an array of the today of the hourly timing.
+     *
+     * @param $timing
+     * @param bool $timestamp
+     * @return array
+     */
+    public static function hourly($timing, $timestamp = true) {
+        $hourlies = [];
+
+        for($i = 0; $i < 24; $i++) {
+            $todayHourly = self::todayAny($i, $timing, $timing);
+
+            if ($timestamp) {
+                array_push($hourlies, $todayHourly);
+
+            } else {
+                array_push($hourlies, self::toDate($todayHourly));
+            }
+        }
+
+        return $hourlies;
     }
 
     /**
