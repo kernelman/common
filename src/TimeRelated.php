@@ -157,7 +157,7 @@ class TimeRelated
      * @return false|string
      */
     public static function monthDays() {
-        return date('t');
+        return date('t', time());
     }
 
     /**
