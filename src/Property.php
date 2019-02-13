@@ -11,6 +11,7 @@
 namespace Common;
 
 use Exceptions\InvalidArgumentException;
+use Exceptions\NotFoundException;
 use Message\Message;
 
 Class Property {
@@ -153,5 +154,22 @@ Class Property {
         }
 
         return true;
+    }
+
+    /**
+     * Run exists method of class.
+     *
+     * @param $class
+     * @param $methodName
+     * @param $params
+     * @throws NotFoundException
+     */
+    public static function callExistsMethod($class, $methodName, $params) {
+        if (method_exists($class, $methodName)) {
+            call_user_func([ $class, $methodName], $params);
+
+        } else {
+            throw new NotFoundException('Method: ' . $methodName);
+        }
     }
 }
