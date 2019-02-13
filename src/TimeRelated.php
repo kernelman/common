@@ -157,7 +157,7 @@ class TimeRelated
      * @return false|string
      */
     public static function monthDays() {
-        return date('t', time());
+        return date('t');
     }
 
     /**
@@ -266,7 +266,7 @@ class TimeRelated
      * @return array
      */
     public static function hourlyFirst($timestamp = true) {
-        return self::hourly(0, $timestamp);
+        return self::hourly(0, false, $timestamp);
     }
 
     /**
@@ -276,7 +276,7 @@ class TimeRelated
      * @return array
      */
     public static function hourlyLast($timestamp = true) {
-        return self::hourly(59, $timestamp);
+        return self::hourly(59, false, $timestamp);
     }
 
     /**
@@ -332,6 +332,12 @@ class TimeRelated
         return strtotime($dateString);
     }
 
+    /**
+     * Timestamp to date string
+     *
+     * @param $timestamp
+     * @return false|string
+     */
     public static function toDate($timestamp) {
         return date('Y-m-d H:i:s', $timestamp);
     }
