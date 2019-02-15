@@ -19,18 +19,6 @@ class Varying
      * @return mixed
      */
     public static function ifNull($variable) {
-        if (is_array($variable) && empty($variable)) {
-            return null;
-        }
-
-        if (is_string($variable) && $variable == '') {
-            return null;
-        }
-
-        if (is_int($variable) && $variable == 0) {
-            return null;
-        }
-
-        return $variable;
+        return Strings::ifNull($variable) ?? Arrays::ifNull($variable) ?? Integers::ifNull($variable);
     }
 }

@@ -35,4 +35,18 @@ class Strings
     public static function rTrimStrString(string $str, $needle) {
         return rtrim(strstr($str, $needle), $needle);
     }
+
+    /**
+     * 如果为空或者为0的字符串则返回null.
+     *
+     * @param $str
+     * @return null
+     */
+    public static function ifNull($str) {
+        if (is_string($str) && ($str == '' || $str == '0')) {
+            return null;
+        }
+
+        return $str;
+    }
 }
