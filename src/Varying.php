@@ -27,6 +27,10 @@ class Varying
             return null;
         }
 
+        if (is_int($variable) && $variable == 0) {
+            return null;
+        }
+
         return $variable;
     }
 }
