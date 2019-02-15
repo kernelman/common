@@ -15,16 +15,16 @@ class Arrays
 {
 
     /**
-     * 如果是为空的数组则返回null.
+     * 判断数组是否为[]空数组.
      *
      * @param $variable
      * @return null
      */
     public static function ifNull($variable) {
         if (is_array($variable) && empty($variable)) {
-            return null;
+            return true;
         }
 
-        return $variable;
+        return false;
     }
 }

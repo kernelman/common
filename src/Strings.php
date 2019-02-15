@@ -37,16 +37,16 @@ class Strings
     }
 
     /**
-     * 如果为空或者为0的字符串则返回null.
+     * 判断字符串是否为空或者为0.
      *
      * @param $str
      * @return null
      */
     public static function ifNull($str) {
         if (is_string($str) && ($str == '' || $str == '0')) {
-            return null;
+            return true;
         }
 
-        return $str;
+        return false;
     }
 }

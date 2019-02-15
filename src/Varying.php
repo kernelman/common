@@ -15,10 +15,17 @@ class Varying
 {
 
     /**
+     * 判断变量是否为整数0, 字符串'0', 空数组[], 如是则返回null.
+     *
      * @param $variable
      * @return mixed
      */
     public static function ifNull($variable) {
-        return Strings::ifNull($variable) ?? Arrays::ifNull($variable) ?? Integers::ifNull($variable);
+        $is = Strings::ifNull($variable) ?: Arrays::ifNull($variable) ?: Integers::ifNull($variable);
+
+        if($is) {
+            return null;
+        }
+        return $variable;
     }
 }

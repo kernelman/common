@@ -15,16 +15,16 @@ class Integers
 {
 
     /**
-     * 如果是为0的整数则返回null.
+     * 判断整数是否为0.
      *
      * @param $variable
      * @return null
      */
     public static function ifNull($variable) {
         if (is_int($variable) && $variable == 0) {
-            return null;
+            return true;
         }
 
-        return $variable;
+        return false;
     }
 }
