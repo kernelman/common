@@ -91,7 +91,6 @@ class JsonFormat {
             return json_encode($property);
 
         } catch (\Exception $exception) {
-
             throw new UnFormattedException($exception->getMessage());
         }
     }
