@@ -162,14 +162,15 @@ Class Property {
      * @param $class
      * @param $methodName
      * @param $params
+     * @return mixed
      * @throws NotFoundException
      */
     public static function callExistsMethod($class, $methodName, $params) {
         if (method_exists($class, $methodName)) {
-            call_user_func([ $class, $methodName], $params);
+            return call_user_func([ $class, $methodName ], $params);
 
-        } else {
-            throw new NotFoundException('Method: ' . $methodName);
         }
+
+        throw new NotFoundException('Method: ' . $methodName);
     }
 }
