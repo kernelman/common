@@ -195,4 +195,20 @@ Class Property {
 
         throw new NotFoundException('Class: ' . $className);
     }
+
+    /**
+     * Filters an object with a null value and returns an array of property values that are not empty.
+     *
+     * @param $object
+     * @return array
+     * @throws InvalidArgumentException
+     */
+    public static function FilterNullProperty($object) {
+        if (is_object($object)) {
+            $getVars = get_object_vars($object);
+            return array_keys(array_filter($getVars));
+        }
+
+        throw new InvalidArgumentException('$object Not an object');
+    }
 }
