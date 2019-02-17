@@ -157,20 +157,42 @@ Class Property {
     }
 
     /**
-     * Run exists method of class.
+     * Run exists method of object.
      *
-     * @param $class
-     * @param $methodName
-     * @param $params
+     * @param object $class Instantiated object
+     * @param string $methodName
+     * @param mixed ...$params
      * @return mixed
      * @throws NotFoundException
      */
-    public static function callExistsMethod($class, $methodName, $params) {
-        if (method_exists($class, $methodName)) {
+    public static function callExistsMethod($class, $methodName, ...$params) {
+        if (is_object($class) && method_exists($class, $methodName)) {
             return call_user_func([ $class, $methodName ], $params);
-
         }
 
         throw new NotFoundException('Method: ' . $methodName);
+    }
+
+    /**
+     * Run exists method and class.
+     *
+     * @param string $className
+     * @param string $methodName
+     * @param mixed ...$params
+     * @return mixed
+     * @throws NotFoundException
+     */
+    public static function callExistsMethodAndClass($className, $methodName, ...$params) {
+        if (class_exists($className)) {
+            $instance = new $className();
+
+            if (method_exists($instance, $methodName)) {
+                return call_user_func([ $instance, $methodName ], $params);
+            }
+
+            throw new NotFoundException('Method: ' . $methodName);
+        }
+
+        throw new NotFoundException('Class: ' . $className);
     }
 }
