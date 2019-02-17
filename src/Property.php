@@ -203,7 +203,7 @@ Class Property {
      * @return array
      * @throws InvalidArgumentException
      */
-    public static function FilterNullProperty($object) {
+    public static function filterNullProperty($object) {
         if (is_object($object)) {
             $getVars = get_object_vars($object);
             return array_keys(array_filter($getVars));
