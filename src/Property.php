@@ -16,7 +16,9 @@ use Message\Message;
 
 Class Property {
 
-    const NOT_FOUND = ' Property does not exist in the object: ';
+    const NOT_FOUND     = ' Property does not exist in the object: ';
+    const MSG_CLASS     = 'Class: ';
+    const MSG_METHOD    = 'Method: ';
 
     /**
      * Check if the object property exists, if it does not exist, return null.
@@ -163,39 +165,34 @@ Class Property {
      *
      * @param object $class Instantiated object
      * @param string $methodName
-     * @param mixed ...$params
+     * @param mixed $params
      * @return mixed
      * @throws NotFoundException
      */
-    public static function callExistsMethod($class, $methodName, $params) {
-        if (is_object($class) && method_exists($class, $methodName)) {
+    public static function callExistsMethodOnClass($class, $methodName, $params) {
+        if (self::isExistsClass($class)) {
             return call_user_func([ $class, $methodName ], $params);
         }
 
-        throw new NotFoundException('Method: ' . $methodName);
+        return false;
     }
 
     /**
      * Run exists method and class.
      *
-     * @param string $className
-     * @param string $methodName
-     * @param mixed ...$params
-     * @return mixed
+     * @param string $namespace
+     * @param $methodName
+     * @param $params
+     * @return bool|mixed
      * @throws NotFoundException
      */
-    public static function callExistsMethodAndClass($className, $methodName, $params) {
-        if (class_exists($className)) {
-            $instance = new $className();
-
-            if (method_exists($instance, $methodName)) {
-                return call_user_func([ $instance, $methodName ], $params);
-            }
-
-            throw new NotFoundException('Method: ' . $methodName);
+    public static function callExistsMethodOnNamespace($namespace, $methodName, $params) {
+        if (self::isExistsNamespace($namespace)) {
+            $instance = new $namespace();
+            return call_user_func([ $instance, $methodName ], $params);
         }
 
-        throw new NotFoundException('Class: ' . $className);
+        return false;
     }
 
     /**
@@ -234,5 +231,55 @@ Class Property {
         }
 
         throw new InvalidArgumentException('$object ' . Message::ERR_NON_OBJECT);
+    }
+
+    /**
+     * Check if the namespace exists.
+     *
+     * @param string $namespace
+     * @return bool
+     * @throws NotFoundException
+     */
+    public static function isExistsNamespace($namespace) {
+        if (class_exists($namespace)) {
+            return true;
+        }
+
+        throw new NotFoundException('Namespace: ' . $namespace);
+    }
+
+    /**
+     * Check if the class exists.
+     *
+     * @param object $class
+     * @return bool
+     * @throws NotFoundException
+     */
+    public static function isExistsClass($class) {
+        if (is_object($class)) {
+            return true;
+        }
+
+        throw new NotFoundException(self::MSG_CLASS . get_class($class));
+    }
+
+    /**
+     * Check if the method exists.
+     *
+     * @param mixed $class
+     * @param string $methodName
+     * @return bool
+     * @throws NotFoundException
+     */
+    public static function isExistsMethod($class, string $methodName) {
+        if (is_string($class) && self::isExistsNamespace($class) && method_exists($class, $methodName)) {
+            return true;
+        }
+
+        if (is_object($class) && self::isExistsClass($class) && method_exists($class, $methodName)) {
+            return true;
+        }
+
+        throw new NotFoundException(self::MSG_METHOD . $methodName);
     }
 }
