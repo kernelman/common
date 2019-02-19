@@ -16,6 +16,8 @@ use Message\Message;
 
 Class Property {
 
+    const NOT_FOUND = ' Property does not exist in the object: ';
+
     /**
      * Check if the object property exists, if it does not exist, return null.
      *
@@ -209,6 +211,28 @@ Class Property {
             return array_keys(array_filter($getVars));
         }
 
-        throw new InvalidArgumentException('$object Not an object');
+        throw new InvalidArgumentException('$object ' . Message::ERR_NON_OBJECT);
+    }
+
+    /**
+     * Check if the property exists and the object is an object.
+     *
+     * @param $object
+     * @param $property
+     * @return bool
+     * @throws InvalidArgumentException
+     * @throws NotFoundException
+     */
+    public static function isPropertyAndObject($object, $property) {
+        if (is_object($object)) {
+
+            if (property_exists($object, $property)) {
+                return true;
+            }
+
+            throw new NotFoundException($property . self::NOT_FOUND . get_class($object));
+        }
+
+        throw new InvalidArgumentException('$object ' . Message::ERR_NON_OBJECT);
     }
 }
