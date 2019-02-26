@@ -20,14 +20,15 @@ class Export
      * Export to terminal or web.
      *
      * @param string $content
-     * @return $this
+     * @return bool
      */
     public function show(string $content) {
         if ($this->show) {
             echo $content;
+            return true;
         }
 
-        return $this;
+        return false;
     }
 
     /**
@@ -44,6 +45,6 @@ class Export
             return Property::callExistsMethodOnClass($object, $method, $content);
         }
 
-        return $this;
+        return false;
     }
 }
