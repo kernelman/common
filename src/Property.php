@@ -260,7 +260,7 @@ Class Property {
             return true;
         }
 
-        throw new NotFoundException(self::MSG_CLASS . get_class($class));
+        throw new NotFoundException(self::MSG_CLASS . $class);
     }
 
     /**
