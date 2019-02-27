@@ -42,7 +42,7 @@ class Export
      */
     public function save($object, $method, string $content) {
         if ($this->save) {
-            return Property::callExistsMethodOnClass($object, $method, $content);
+            return Property::callExistsMethodOnNamespace($object, $method, $content);
         }
 
         return false;
