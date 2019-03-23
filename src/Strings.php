@@ -49,4 +49,24 @@ class Strings
 
         return false;
     }
+
+    /**
+     * 将字符串浮点数格式化成float型
+     *
+     * @param string $str
+     * @return float
+     */
+    public static function ToFloat(string $str): float {
+        return (float)$str;
+    }
+
+    /**
+     * 将百分比字符串格式化成float型
+     *
+     * @param string $str
+     * @return float
+     */
+    public static function percentageToFloat(string $str): float {
+        return (float)rtrim($str, '%');
+    }
 }
