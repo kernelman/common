@@ -27,4 +27,21 @@ class Arrays
 
         return false;
     }
+
+    /**
+     * 替换源数组的键名为键值
+     *
+     * @param array $source
+     * @param array $needle
+     * @return array
+     */
+    public static function shiftKeyToValue(array $source, array $needle) {
+        $result = [];
+        foreach ($source as $key => $value) {
+            $result[$needle[$key]] = $value;
+        }
+
+        unset($source);
+        return $result;
+    }
 }
