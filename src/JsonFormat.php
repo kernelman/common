@@ -35,6 +35,15 @@ class JsonFormat {
         return self::isString($property) ?: self::isObject($property) ?: self::isArray($property);
     }
 
+	/**
+	 * @param $property
+	 * @param null $uMask // Json encode uMask.
+	 * @return bool|false|string
+	 */
+	public static function to($property, $uMask = null) {
+    	return self::boot($property, $uMask);
+	}
+
     /**
      * @param $property
      * @return bool
