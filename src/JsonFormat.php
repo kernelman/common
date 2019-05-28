@@ -39,7 +39,7 @@ class JsonFormat {
      * @param $property
      * @return bool
      */
-    public function isString($property) {
+    public static function isString($property) {
         if(is_string($property)) {
             return $property;
         }
