@@ -22,6 +22,8 @@ class JsonFormat {
     private static $jsonUMask = null;
 
     /**
+     * Begin encode
+     *
      * @param $property
      * @param null $uMask // Json encode uMask.
      * @return bool|false|string
@@ -36,12 +38,32 @@ class JsonFormat {
     }
 
 	/**
+	 * Alias, refer to the boot method
+	 *
 	 * @param $property
-	 * @param null $uMask // Json encode uMask.
+	 * @param null $uMask // JSON encode uMask.
 	 * @return bool|false|string
 	 */
-	public static function to($property, $uMask = null) {
+	public static function from($property, $uMask = null) {
     	return self::boot($property, $uMask);
+	}
+
+	/**
+	 * JSON decode
+	 *
+	 * @param $property
+	 * @param bool $assoc
+	 * @param null $uMask
+	 * @return mixed
+	 */
+	public static function to($property, $assoc = false, $uMask = null) {
+		self::$jsonUMask = $uMask;
+
+		if (!$assoc) {
+			return self::toArray($property);
+		}
+
+		return self::toObject($property);
 	}
 
     /**
@@ -83,7 +105,7 @@ class JsonFormat {
     }
 
     /**
-     * Json encode
+     * JSON encode
      *
      * @param $property
      * @return false|string
@@ -103,4 +125,58 @@ class JsonFormat {
             throw new UnFormattedException($exception->getMessage());
         }
     }
+
+	/**
+	 * Decode JSON to array
+	 *
+	 * @param $property
+	 * @param null $uMask
+	 * @return mixed
+	 * @throws UnFormattedException
+	 */
+	public static function toArray($property, $uMask = null) {
+
+		try {
+
+			if ($uMask != null) {
+				self::$jsonUMask = $uMask;
+			}
+
+			if (self::$jsonUMask !== null) {
+				return json_decode($property, true, 512, self::$jsonUMask);
+			}
+
+			return json_decode($property, true);
+
+		} catch (\Exception $exception) {
+			throw new UnFormattedException($exception->getMessage());
+		}
+	}
+
+	/**
+	 * Decode JSON to object
+	 *
+	 * @param $property
+	 * @param null $uMask
+	 * @return mixed
+	 * @throws UnFormattedException
+	 */
+	public static function toObject($property, $uMask = null) {
+
+		try {
+
+			if ($uMask != null) {
+				self::$jsonUMask = $uMask;
+			}
+
+			if (self::$jsonUMask !== null) {
+				return json_decode($property, false, 512, self::$jsonUMask);
+			}
+
+			return json_decode($property, false);
+
+		} catch (\Exception $exception) {
+			throw new UnFormattedException($exception->getMessage());
+		}
+	}
 }
