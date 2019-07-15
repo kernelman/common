@@ -52,6 +52,17 @@ Class Property {
         return $params ?? null;
     }
 
+	/**
+	 * Check if the object property exists, if it does not exist, return false.
+	 *
+	 * @param $object
+	 * @param $property
+	 * @return bool
+	 */
+	public static function nonExistsReturnFalse($object, $property) {
+		return $object->{$property} ?? false;
+	}
+
     /**
      * Check if the object property exists, if it does not exist, return 0.
      *
