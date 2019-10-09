@@ -15,17 +15,31 @@ class Arrays
 {
 
     /**
-     * 判断数组是否为[]空数组.
+     * 判断数组是否为空数组.
      *
-     * @param $variable
+     * @param $source
      * @return null
      */
-    public static function ifNull($variable) {
-        if (is_array($variable) && empty($variable)) {
+    public static function ifNull($source) {
+        if (is_array($source) && empty($source)) {
             return true;
         }
 
         return false;
+    }
+
+	/**
+	 * 检查是否完全为空数组
+	 *
+	 * @param array $source
+	 * @return bool
+	 */
+    public static function isEmpty(array $source) {
+    	if (count($source) > 0) {
+    		return false;
+	    }
+
+    	return true;
     }
 
     /**
@@ -43,5 +57,16 @@ class Arrays
 
         unset($source);
         return $result;
+    }
+
+	/**
+	 * 过滤数组空值并重置数组索引
+	 *
+	 * @param array $source
+	 * @return array
+	 */
+    public static function filterAndReset(array $source) {
+    	$filterNullValue = array_filter($source);
+	    return array_values($filterNullValue);
     }
 }
